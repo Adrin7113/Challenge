@@ -10,6 +10,10 @@ export async function storeData(data) {
   if (fileDataJson) {
     fileDataJson.push(data);
   }
+  await fetch("http://localhost:8000/posts", {
+    method: "POST",
+    body: JSON.stringify(data),
+  });
   console.log(fileDataJson);
   return await fs.writeFile("data.json", JSON.stringify(fileDataJson || []));
 }

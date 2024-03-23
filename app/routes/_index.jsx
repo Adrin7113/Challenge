@@ -1,5 +1,8 @@
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
 import { storeData, getData } from "../data/saveData";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export const meta = () => {
   return [
@@ -103,7 +106,10 @@ export async function action(data) {
     body: formData.get("body"),
     date: formData.get("date"),
   };
-
+  const atricle = await prisma.article.create({
+    data: taskData,
+  });
+  console.log(atricle);
   await storeData(taskData);
   return {
     status: "ok",
